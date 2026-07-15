@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>你在股市是哪一種生物？</title>
+  <title>你在股市是那一種狠角色？</title>
   <style>
 
     :root{
@@ -56,21 +56,22 @@
       text-align:center;
       margin-bottom:24px;
     }
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:9px 14px;
-      border:2px solid var(--text);
-      border-radius:999px;
-      background:var(--yellow);
-      color:#171717;
-      font-size:14px;
-      font-weight:950;
-      box-shadow:5px 5px 0 #000;
-      transform:rotate(-1.5deg);
-      margin-bottom:18px;
-    }
+ .eyebrow{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:7px 12px;
+  border:1px solid rgba(255,106,0,.35);
+  border-radius:999px;
+  background:rgba(255,106,0,.12);
+  color:#ff9a52;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.04em;
+  margin-bottom:16px;
+  box-shadow:none;
+  transform:none;
+}
     h1{
       margin:0;
       font-size:clamp(38px, 7vw, 68px);
@@ -374,6 +375,59 @@
       border:2px solid #111;
       box-shadow:3px 3px 0 #000;
     }
+
+    .course-card{
+      position:relative;
+    }
+    .course-card-cover{
+      position:absolute;
+      inset:0;
+      z-index:5;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height:100%;
+      padding:26px;
+      text-align:center;
+      cursor:pointer;
+      border-radius:16px;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,106,0,.26), transparent 30%),
+        linear-gradient(145deg,#20233a,#171923);
+      transition:opacity .28s ease, visibility .28s ease;
+    }
+    .course-card.revealed .course-card-cover{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+    .course-card-cover:before{
+      content:"?";
+      width:82px;
+      height:82px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:18px;
+      border:3px solid #111;
+      border-radius:50%;
+      background:linear-gradient(145deg,#ff8a2a,#ffd0a3);
+      color:#171717;
+      font-size:44px;
+      font-weight:950;
+      box-shadow:5px 5px 0 #000;
+    }
+    .course-card-cover strong{
+      font-size:19px;
+      line-height:1.45;
+      margin-bottom:7px;
+    }
+    .course-card-cover span{
+      color:var(--muted);
+      font-size:14px;
+    }
+
     @media (max-width:600px){
       .wrap{width:min(100% - 18px,860px);padding-top:18px}
       .card{padding:20px}
@@ -392,14 +446,14 @@
   <main class="wrap">
     <header class="hero">
       <div class="eyebrow">PPA 股市人格測驗</div>
-      <h1>你在股市是哪一種生物？</h1>
-      <p>用 10 題看看你到底是在投資、做研究，還是在用錢玩大型線上心跳遊戲。</p>
+      <h1>你在股市是那一種角色？</h1>
+      <p>用 10 題看看你究竟是在投資、做研究，還是在用錢玩大型線上遊戲🔥</p>
     </header>
 
     <section id="startScreen" class="card start">
-      <div class="icons">🌱 📈 🔥 ⚡</div>
+      <div class="icons">🌱 📈 🔥 ⚡ 🐶</div>
       <h2>準備好面對真實的自己了嗎？</h2>
-      <p>沒有標準答案，只有你平常嘴上說的，跟真的按下買進時做的。</p>
+      <p>沒有標準答案，只有你平常嘴上說的，跟你真的做的</p>
       <button class="btn btn-primary" onclick="startQuiz()">開始公開處刑</button>
     </section>
 
@@ -429,7 +483,7 @@
 
       <div class="section">
         <div class="recommend-title">
-          <h3>系統覺得你還有救，先看這些</h3>
+          <h3>看來你還有救，先跟這些老師學釣魚吧</h3>
           <span>不是通靈，是真的有算</span>
         </div>
         <div id="courseGrid" class="course-grid"></div>
@@ -689,126 +743,522 @@ const courses = [
 
 const questions = [
   {
-    q:"朋友在群組丟一句：「這支明天一定噴。」你會？",
-    options:[
-      {t:"先問它到底在做什麼，我不想再買到名字很帥但看不懂的公司", p:"A", tags:["所有投資理財","價值投資"]},
-      {t:"先看它會不會把我的配置弄歪，帥歸帥，帳戶還是要活", p:"B", tags:["ETF","價值投資"]},
-      {t:"財報、產業、新聞來源全部交出來，我要查到它祖譜", p:"C", tags:["產業分析","美股投資"]},
-      {t:"先看線圖和籌碼，嘴巴說冷靜，手已經打開下單頁", p:"D", tags:["技術分析","籌碼分析"]},
-      {t:"先買一點再說，錯過比買錯更痛", p:"E", tags:["盤勢分析","當沖"]}
+    "q": "朋友在群組丟一句：「這支明天一定噴」你會？",
+    "options": [
+      {
+        "t": "先問它到底在做什麼，不想再買到熱門但看不懂的公司",
+        "p": "A",
+        "tags": [
+          "所有投資理財",
+          "價值投資"
+        ]
+      },
+      {
+        "t": "先看它會不會干擾到我現在的配置，風險要顧好",
+        "p": "B",
+        "tags": [
+          "ETF",
+          "價值投資"
+        ]
+      },
+      {
+        "t": "財報、產業、新聞來源全部交出來，我要查到它祖譜",
+        "p": "C",
+        "tags": [
+          "產業分析",
+          "美股投資"
+        ]
+      },
+      {
+        "t": "先看線圖和籌碼，嘴巴說冷靜，手已經打開下單頁",
+        "p": "D",
+        "tags": [
+          "技術分析",
+          "籌碼分析"
+        ]
+      },
+      {
+        "t": "先上車再說，寧可買錯也不可錯過",
+        "p": "E",
+        "tags": [
+          "盤勢分析",
+          "當沖"
+        ]
+      }
     ]
   },
   {
-    q:"突然多了 20 萬元，你第一個念頭是？",
-    options:[
-      {t:"先放著，我連自己在幹嘛都還沒搞懂", p:"A", tags:["所有投資理財","其他投資理財"]},
-      {t:"分批丟進 ETF 或不同資產，至少晚上睡得著", p:"B", tags:["ETF","房地產"]},
-      {t:"挑幾家公司慢慢研究，想辦法把 20 萬養大", p:"C", tags:["價值投資","產業分析"]},
-      {t:"先留著等好價位，市場總會自己露出破綻", p:"D", tags:["盤勢分析","技術分析"]},
-      {t:"先挑一支最有感覺的，人生偶爾就是要有點刺激", p:"E", tags:["當沖","其他投資理財"]}
+    "q": "突然多了 20 萬元，你第一個念頭是？",
+    "options": [
+      {
+        "t": "先放著不動，我連自己在幹嘛都還沒搞懂",
+        "p": "A",
+        "tags": [
+          "所有投資理財",
+          "其他投資理財"
+        ]
+      },
+      {
+        "t": "分批丟進 ETF 或不同資產，至少晚上睡得著",
+        "p": "B",
+        "tags": [
+          "ETF",
+          "房地產"
+        ]
+      },
+      {
+        "t": "挑幾家公司慢慢研究，想辦法把 20 萬養大",
+        "p": "C",
+        "tags": [
+          "價值投資",
+          "產業分析"
+        ]
+      },
+      {
+        "t": "先留著等好價位，市場總會自己露出破綻",
+        "p": "D",
+        "tags": [
+          "盤勢分析",
+          "技術分析"
+        ]
+      },
+      {
+        "t": "先挑一支最有感覺的，人生偶爾就是要有點刺激",
+        "p": "E",
+        "tags": [
+          "當沖",
+          "其他投資理財"
+        ]
+      }
     ]
   },
   {
-    q:"你關注很久的股票突然一天大漲 10%，你會？",
-    options:[
-      {t:"看著它飛走，然後開始懷疑自己是不是不適合投資", p:"A", tags:["所有投資理財","盤勢分析"]},
-      {t:"沒在計畫裡，不追，假裝內心毫無波瀾", p:"B", tags:["ETF","價值投資"]},
-      {t:"先研究它是真的變強，還是大家一起發瘋", p:"C", tags:["產業分析","美股投資"]},
-      {t:"立刻看量價籌碼，找能不能順勢切入", p:"D", tags:["籌碼分析","技術分析"]},
-      {t:"都漲 10% 了，代表市場認證過，先上車再說", p:"E", tags:["盤勢分析","當沖"]}
+    "q": "你關注很久的股票突然一天大漲 10%，你會？",
+    "options": [
+      {
+        "t": "看著它飛走，然後開始懷疑自己是不是不適合投資",
+        "p": "A",
+        "tags": [
+          "所有投資理財",
+          "盤勢分析"
+        ]
+      },
+      {
+        "t": "沒在計畫裡，不追，假裝內心毫無波瀾",
+        "p": "B",
+        "tags": [
+          "ETF",
+          "價值投資"
+        ]
+      },
+      {
+        "t": "先研究它是真的變強，還是大家一起發瘋",
+        "p": "C",
+        "tags": [
+          "產業分析",
+          "美股投資"
+        ]
+      },
+      {
+        "t": "立刻看量價籌碼，找能不能順勢切入",
+        "p": "D",
+        "tags": [
+          "籌碼分析",
+          "技術分析"
+        ]
+      },
+      {
+        "t": "都漲 10% 了，代表市場認證過，先上車再說！",
+        "p": "E",
+        "tags": [
+          "盤勢分析",
+          "當沖"
+        ]
+      }
     ]
   },
   {
-    q:"股票跌了 20%，你最可能怎麼做？",
-    options:[
-      {t:"先問人，我現在到底該跑還是裝沒看到", p:"A", tags:["所有投資理財","其他投資理財"]},
-      {t:"檢查部位，按原計畫小幅加碼，但不把身家丟下去", p:"B", tags:["ETF","價值投資"]},
-      {t:"基本面沒壞就再研究一次，確認後才考慮加碼", p:"C", tags:["價值投資","產業分析"]},
-      {t:"看停損、籌碼和趨勢，該砍就砍，不跟股票談感情", p:"D", tags:["技術分析","籌碼分析"]},
-      {t:"跌 20% 等於打八折，先補一張把成本攤漂亮", p:"E", tags:["當沖","技術分析"]}
+    "q": "股票跌了 20%，你最可能怎麼做？",
+    "options": [
+      {
+        "t": "先問親朋好友，現在到底該跑還是蓋牌？",
+        "p": "A",
+        "tags": [
+          "所有投資理財",
+          "其他投資理財"
+        ]
+      },
+      {
+        "t": "看原訂計劃是否可以加碼，但不把身家丟下去",
+        "p": "B",
+        "tags": [
+          "ETF",
+          "價值投資"
+        ]
+      },
+      {
+        "t": "再研究一次基本面，確認方向後才考慮加碼",
+        "p": "C",
+        "tags": [
+          "價值投資",
+          "產業分析"
+        ]
+      },
+      {
+        "t": "到停損點該砍就砍，我不跟股票談感情",
+        "p": "D",
+        "tags": [
+          "技術分析",
+          "籌碼分析"
+        ]
+      },
+      {
+        "t": "跌 20% 等於打八折，先補一張攤平！",
+        "p": "E",
+        "tags": [
+          "當沖",
+          "技術分析"
+        ]
+      }
     ]
   },
   {
-    q:"市場突然大跌，你最想先知道什麼？",
-    options:[
-      {t:"誰可以先用人話告訴我發生什麼事", p:"A", tags:["所有投資理財","盤勢分析"]},
-      {t:"我的配置有沒有失控，會不會一次畢業", p:"B", tags:["ETF","總體經濟"]},
-      {t:"有沒有好公司被一起拖下水，可以撿嗎", p:"C", tags:["產業分析","價值投資"]},
-      {t:"關鍵價位在哪，現在是逃命還是抄底", p:"D", tags:["技術分析","盤勢分析"]},
-      {t:"終於有波動了，今天應該會很好玩", p:"E", tags:["當沖","期貨選擇權"]}
+    "q": "市場突然大跌，你最想先知道什麼？",
+    "options": [
+      {
+        "t": "打開電視、社群看誰能告訴我發生什麼事",
+        "p": "A",
+        "tags": [
+          "所有投資理財",
+          "盤勢分析"
+        ]
+      },
+      {
+        "t": "我的配置會不會一次畢業？",
+        "p": "B",
+        "tags": [
+          "ETF",
+          "總體經濟"
+        ]
+      },
+      {
+        "t": "有沒有好公司被一起拖下水，可以撿嗎",
+        "p": "C",
+        "tags": [
+          "產業分析",
+          "價值投資"
+        ]
+      },
+      {
+        "t": "關鍵價位在哪，現在是逃命還是抄底",
+        "p": "D",
+        "tags": [
+          "技術分析",
+          "盤勢分析"
+        ]
+      },
+      {
+        "t": "終於有波動了，今天應該會很好玩",
+        "p": "E",
+        "tags": [
+          "當沖",
+          "期貨選擇權"
+        ]
+      }
     ]
   },
   {
-    q:"你最常怎麼決定要不要買一支股票？",
-    options:[
-      {t:"先找白話整理，不然我連它賣什麼都不知道", p:"A", tags:["所有投資理財","其他投資理財"]},
-      {t:"看它適不適合長期放進自己的配置", p:"B", tags:["ETF","價值投資"]},
-      {t:"研究公司競爭力、財報和產業趨勢", p:"C", tags:["產業分析","價值投資"]},
-      {t:"看線型、籌碼、量價和進場位置", p:"D", tags:["技術分析","籌碼分析"]},
-      {t:"新聞很熱、朋友也在聊，而且我有感覺", p:"E", tags:["盤勢分析","其他投資理財"]}
+    "q": "你最常怎麼決定要不要買一支股票？",
+    "options": [
+      {
+        "t": "先估狗一下公司，不然我連它賣什麼都不知道",
+        "p": "A",
+        "tags": [
+          "所有投資理財",
+          "其他投資理財"
+        ]
+      },
+      {
+        "t": "看它適不適合長期放進自己的配置",
+        "p": "B",
+        "tags": [
+          "ETF",
+          "價值投資"
+        ]
+      },
+      {
+        "t": "研究公司競爭力、財報和產業趨勢",
+        "p": "C",
+        "tags": [
+          "產業分析",
+          "價值投資"
+        ]
+      },
+      {
+        "t": "看技術線型、籌碼、量價和進場位置",
+        "p": "D",
+        "tags": [
+          "技術分析",
+          "籌碼分析"
+        ]
+      },
+      {
+        "t": "新聞有在講、朋友也在聊，而且我有感覺",
+        "p": "E",
+        "tags": [
+          "盤勢分析",
+          "其他投資理財"
+        ]
+      }
     ]
   },
   {
-    q:"你最受不了哪一種投資內容？",
-    options:[
-      {t:"滿篇術語，講得像我欠它一張金融證照", p:"A", tags:["所有投資理財","其他投資理財"]},
-      {t:"只講賺多少，完全不講可能死多慘", p:"B", tags:["ETF","價值投資"]},
-      {t:"只給答案，不給分析過程，叫我怎麼相信", p:"C", tags:["產業分析","美股投資"]},
-      {t:"分析半天，最後還是不知道哪裡買哪裡賣", p:"D", tags:["技術分析","盤勢分析"]},
-      {t:"太多字，能不能先告訴我現在有沒有機會", p:"E", tags:["當沖","盤勢分析"]}
+    "q": "你最受不了哪一種投資分享內容？",
+    "options": [
+      {
+        "t": "滿篇都是術語，講得像我欠它一張金融證照",
+        "p": "A",
+        "tags": [
+          "所有投資理財",
+          "其他投資理財"
+        ]
+      },
+      {
+        "t": "只講賺多少，完全不講可能死多慘",
+        "p": "B",
+        "tags": [
+          "ETF",
+          "價值投資"
+        ]
+      },
+      {
+        "t": "只給答案，不給分析過程，叫我怎麼相信",
+        "p": "C",
+        "tags": [
+          "產業分析",
+          "美股投資"
+        ]
+      },
+      {
+        "t": "分析半天，最後還是不知道哪裡買哪裡賣",
+        "p": "D",
+        "tags": [
+          "技術分析",
+          "盤勢分析"
+        ]
+      },
+      {
+        "t": "太多字，能不能先告訴我現在有沒有機會",
+        "p": "E",
+        "tags": [
+          "當沖",
+          "盤勢分析"
+        ]
+      }
     ]
   },
   {
-    q:"如果投資是一場遊戲，你比較像哪種玩家？",
-    options:[
-      {t:"先看新手教學，至少不要一出生就被怪打死", p:"A", tags:["所有投資理財","其他投資理財"]},
-      {t:"穩穩農資源，不追求一夜神裝", p:"B", tags:["ETF","房地產"]},
-      {t:"研究技能樹和裝備數值，算到隊友都睡著", p:"C", tags:["產業分析","價值投資"]},
-      {t:"看地圖、抓節奏、等對手露破綻", p:"D", tags:["技術分析","籌碼分析"]},
-      {t:"直接衝王，死了再重來，反正刺激最重要", p:"E", tags:["當沖","期貨選擇權"]}
+    "q": "如果投資是一場遊戲，你比較像哪種玩家？",
+    "options": [
+      {
+        "t": "先看新手教學，至少不要一出生就被怪打死",
+        "p": "A",
+        "tags": [
+          "所有投資理財",
+          "其他投資理財"
+        ]
+      },
+      {
+        "t": "穩扎穩打慢慢來，不要畢業安全第一",
+        "p": "B",
+        "tags": [
+          "ETF",
+          "房地產"
+        ]
+      },
+      {
+        "t": "苦心研讀報告新聞，以前唸書都沒這麼認真",
+        "p": "C",
+        "tags": [
+          "產業分析",
+          "價值投資"
+        ]
+      },
+      {
+        "t": "一步一步抓節奏，等對手露出破綻再出手",
+        "p": "D",
+        "tags": [
+          "技術分析",
+          "籌碼分析"
+        ]
+      },
+      {
+        "t": "直接衝進去，死了再重來，反正刺激最重要",
+        "p": "E",
+        "tags": [
+          "當沖",
+          "期貨選擇權"
+        ]
+      }
     ]
   },
   {
-    q:"如果每週只能收到一份投資內容，你最希望它做到什麼？",
-    options:[
-      {t:"把複雜東西翻譯成人類語言", p:"A", tags:["所有投資理財","其他投資理財"]},
-      {t:"給我一套不用每天盯盤也能活的方法", p:"B", tags:["ETF","價值投資"]},
-      {t:"幫我找到值得研究的公司和產業", p:"C", tags:["產業分析","美股投資"]},
-      {t:"快速抓行情、價位和進出場節奏", p:"D", tags:["盤勢分析","技術分析"]},
-      {t:"告訴我現在市場最熱的是什麼，我想先卡位", p:"E", tags:["盤勢分析","當沖"]}
+    "q": "如果每週只能收到一份投資內容，你最希望它做到什麼？",
+    "options": [
+      {
+        "t": "把複雜東西翻譯成人類的語言",
+        "p": "A",
+        "tags": [
+          "所有投資理財",
+          "其他投資理財"
+        ]
+      },
+      {
+        "t": "給我一套不用每天盯盤也能活下去的方法",
+        "p": "B",
+        "tags": [
+          "ETF",
+          "價值投資"
+        ]
+      },
+      {
+        "t": "幫我整理值得研究的公司和產業",
+        "p": "C",
+        "tags": [
+          "產業分析",
+          "美股投資"
+        ]
+      },
+      {
+        "t": "快速抓出行情重點，找到大戶籌碼動態",
+        "p": "D",
+        "tags": [
+          "盤勢分析",
+          "技術分析"
+        ]
+      },
+      {
+        "t": "告訴我現在市場最熱的飆股是什麼，我先卡位",
+        "p": "E",
+        "tags": [
+          "盤勢分析",
+          "當沖"
+        ]
+      }
     ]
   },
   {
-    q:"哪一句最像你的投資人生？",
-    options:[
-      {t:"我不是不想買，我只是還沒搞懂", p:"A", tags:["所有投資理財","ETF"]},
-      {t:"可以慢慢賺，但拜託不要突然爆炸", p:"B", tags:["ETF","價值投資"]},
-      {t:"我研究得夠深，市場遲早會懂我的意思", p:"C", tags:["產業分析","總體經濟"]},
-      {t:"市場一直在動，我也不能坐著發呆", p:"D", tags:["技術分析","籌碼分析"]},
-      {t:"進場靠感覺，套牢靠信仰，解套靠攤平", p:"E", tags:["當沖","技術分析"]}
+    "q": "哪一句最像你的投資人生？",
+    "options": [
+      {
+        "t": "我不是不想買，我只是還沒搞懂遊戲",
+        "p": "A",
+        "tags": [
+          "所有投資理財",
+          "ETF"
+        ]
+      },
+      {
+        "t": "可以慢慢賺，但拜託不要突然爆炸 🙏",
+        "p": "B",
+        "tags": [
+          "ETF",
+          "價值投資"
+        ]
+      },
+      {
+        "t": "我研究得夠深入，市場只是還沒反應（翹腳）",
+        "p": "C",
+        "tags": [
+          "產業分析",
+          "總體經濟"
+        ]
+      },
+      {
+        "t": "市場一直在動，我也不能坐著發呆",
+        "p": "D",
+        "tags": [
+          "技術分析",
+          "籌碼分析"
+        ]
+      },
+      {
+        "t": "進場靠感覺，套牢靠信仰，解套靠攤平",
+        "p": "E",
+        "tags": [
+          "當沖",
+          "技術分析"
+        ]
+      }
     ]
   }
 ];
 
 const personas = {
-  A:{emoji:"🌱", name:"市場迷路小幼苗", desc:"你不是不想賺錢，只是每次看到一堆術語，靈魂就先離開身體。先把規則搞懂，你會走得比想像中穩。"},
-  B:{emoji:"📈", name:"佛系資產飼養員", desc:"你相信錢要慢慢養，不需要每天挖出來看有沒有長大。你重視配置、紀律，還有晚上睡得著。"},
-  C:{emoji:"🔥", name:"財報考古研究員", desc:"別人看新聞標題，你想一路挖到財報附註。你相信多研究一點，就能少被市場呼巴掌幾次。"},
-  D:{emoji:"⚡", name:"盤面反射神經戰士", desc:"市場一動，你的眼睛、滑鼠和心跳會一起動。你在意節奏、價位、籌碼和時機。"},
-  E:{emoji:"🎲", name:"信仰攤平哲學的賭狗", desc:"別人研究完才買，你買完才開始培養信仰。進場靠感覺，套牢靠信仰，解套靠攤平。"}
+  "A": {
+    "emoji": "🌱",
+    "name": "市場迷路小幼苗",
+    "desc": "你不是不想賺錢，只是每次看到一堆術語，靈魂就會先離開身體。先把遊戲規則搞懂，你會走得比想像中穩！"
+  },
+  "B": {
+    "emoji": "📈",
+    "name": "佛系資產飼養員",
+    "desc": "你相信錢要慢慢養，不需要每天都挖出來看有沒有長大。你最重視配置、紀律，還有晚上睡得著。"
+  },
+  "C": {
+    "emoji": "🔥",
+    "name": "財報考古研究員",
+    "desc": "別人只看新聞標題，你卻想一路挖出所有財報。你相信只要多研究一點，就能不被市場呼巴掌。"
+  },
+  "D": {
+    "emoji": "⚡",
+    "name": "盤面反射神經戰士",
+    "desc": "市場一有波動，你的眼睛、手指和心跳會一起跳動。你十分在意交易節奏、價位、籌碼和時機。"
+  },
+  "E": {
+    "emoji": "🎲",
+    "name": "信仰攤平哲學賭狗",
+    "desc": "別人研究完才買，你買完才開始培養信仰。進場全靠你的感覺，套牢就改成信仰它，跌越多買越多。"
+  }
 };
 
 const mixedNames = {
-  "AB":"邊學邊怕型",
-  "AC":"新手考古型",
-  "AD":"手比腦快型",
-  "AE":"新手梭哈型",
-  "BC":"穩中帶狠型",
-  "BD":"佛系狙擊型",
-  "BE":"穩健嘴硬型",
-  "CD":"研究完直接開幹型",
-  "CE":"研究凹單型",
-  "DE":"手速信仰型"
+  "AB": "邊學邊怕的膽小狗英雄",
+  "AC": "新手村考古學家",
+  "AD": "手比腦快的見習交易員",
+  "AE": "新手牌桌梭哈仔",
+  "BC": "穩中帶狠的寶藏獵人",
+  "BD": "耐心埋伏的市場狙擊手",
+  "BE": "外表沉穩的熱血玩家",
+  "CD": "研究完就出手的實戰派",
+  "CE": "凹單凹出信仰的信眾",
+  "DE": "永不退場的信仰戰士"
+};
+
+const mixedDescs = {
+  "AB": "你想先搞懂投資，卻又很怕不小心把錢弄不見，偏好有人帶路、腳步踏穩才繼續前進。",
+  "AC": "基礎還在補，但研究魂已經先上線，看到公司和產業就忍不住想挖深一點。",
+  "AD": "還沒完全搞懂市場，手已經先打開看盤軟體，行動速度經常比理解速度快。",
+  "AE": "規則還沒看完，勇氣和感覺已經到位，容易先上車再慢慢研究發生什麼事。",
+  "BC": "你重視穩定配置，但也不甘心只拿平均報酬，會在安全範圍內尋找成長機會。",
+  "BD": "平常不亂動，等到風險、價位和時機都對了才出手，追求穩定中的精準操作。",
+  "BE": "嘴上說要控制風險、長期持有，但市場一有刺激，手還是會忍不住多按幾下。",
+  "CD": "你既要研究公司和產業，也要抓進出場時機，功課做完就不想只坐著看。",
+  "CE": "你會做研究，但一旦買進就容易越看越有信仰，資料最後常被拿來支持繼續加碼。",
+  "DE": "進場靠反應，行情靠感覺，套牢後再用信仰和攤平延長這場遊戲。"
+};
+
+const mixedEmojis = {
+  "AB": "🌱📈",
+  "AC": "🌱🔥",
+  "AD": "🌱⚡",
+  "AE": "🌱🎲",
+  "BC": "📈🔥",
+  "BD": "📈⚡",
+  "BE": "📈🎲",
+  "CD": "🔥⚡",
+  "CE": "🔥🎲",
+  "DE": "⚡🎲"
 };
 
 let current = 0;
@@ -907,8 +1357,8 @@ function showResult(){
   if(first[1] - second[1] <= 2){
     const code = [first[0],second[0]].sort().join("");
     title = mixedNames[code] || `${personas[first[0]].name} × ${personas[second[0]].name}`;
-    emoji = personas[first[0]].emoji + personas[second[0]].emoji;
-    desc = `恭喜，你不是單純一型，你是「${personas[first[0]].name}」和「${personas[second[0]].name}」的混合生物。${personas[first[0]].desc}`;
+    emoji = mixedEmojis[code] || (personas[first[0]].emoji + personas[second[0]].emoji);
+    desc = mixedDescs[code] || `你同時帶有「${personas[first[0]].name}」和「${personas[second[0]].name}」的特質。`;
   }else{
     title = personas[first[0]].name;
     emoji = personas[first[0]].emoji;
@@ -981,6 +1431,10 @@ function showResult(){
       .join("");
 
     card.innerHTML = `
+      <div class="course-card-cover" role="button" tabindex="0" aria-label="翻開推薦專欄">
+        <strong>你的推薦專欄</strong>
+        <span>點一下翻牌</span>
+      </div>
       <img class="course-cover" src="${escapeAttribute(course.image)}" alt="${escapeAttribute(course.title)}封面"
            onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22600%22%3E%3Crect width=%22100%25%22 height=%22100%25%22 fill=%22%23eef1f5%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23667085%22 font-size=%2230%22%3E專欄封面%3C/text%3E%3C/svg%3E'">
       <div class="course-body">
@@ -989,6 +1443,15 @@ function showResult(){
         <p class="course-desc">${escapeHtml(course.description)}</p>
         <a class="course-link" href="${escapeAttribute(course.url)}" target="_blank" rel="noopener noreferrer">去看看能不能救</a>
       </div>`;
+
+    const cover = card.querySelector(".course-card-cover");
+    cover.addEventListener("click", () => card.classList.add("revealed"));
+    cover.addEventListener("keydown", (event) => {
+      if(event.key === "Enter" || event.key === " "){
+        event.preventDefault();
+        card.classList.add("revealed");
+      }
+    });
     courseBox.appendChild(card);
   });
 }
